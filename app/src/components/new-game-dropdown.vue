@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown">
     <button
-      class="btn btn-secondary dropdown-toggle"
+      class="btn btn-success dropdown-toggle"
       type="button"
       id="new-game-dropdown"
       data-bs-toggle="dropdown"
