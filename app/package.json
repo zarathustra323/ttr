@@ -17,6 +17,7 @@
     "lint": "eslint --ext .js --ext .vue --max-warnings 0 ./"
   },
   "dependencies": {
+    "slug": "^5.1.1",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12"
   },
