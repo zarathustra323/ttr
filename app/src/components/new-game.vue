@@ -2,9 +2,23 @@
   <form @submit.prevent="createGame">
     <div v-for="(player, index) in players" :key="index" class="card mb-3">
       <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-3">
+            Player {{ index + 1 }}
+          </h5>
+
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            :disabled="!canRemovePlayer"
+            @click="removePlayer(index)"
+          >
+            Remove
+          </button>
+        </div>
         <div class="row">
           <div class="col-sm-6 mb-2 mb-sm-0">
-            <label :for="`player-name-${index}`">Player Name</label>
+            <label :for="`player-name-${index}`">Name</label>
             <input
               v-model="player.name"
               :id="`player-name-${index}`"
@@ -52,24 +66,13 @@
             </select>
           </div>
         </div>
-
-        <div class="mt-3">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            :disabled="!canRemovePlayer"
-            @click="removePlayer(index)"
-          >
-            Remove
-          </button>
-        </div>
       </div>
     </div>
 
     <div class="d-flex justify-content-between">
       <button
         type="button"
-        class="btn btn-secondary"
+        class="btn btn-primary"
         :disabled="!canAddPlayer"
         @click="addPlayer"
       >
