@@ -7,14 +7,11 @@
             Player {{ index + 1 }}
           </h5>
 
-          <button
-            type="button"
-            class="btn btn-outline-danger btn-sm"
-            :disabled="!canRemovePlayer"
-            @click="removePlayer(index)"
-          >
-            Remove
-          </button>
+          <remove-player-button
+            :index="index"
+            :disabled="isLoading || !canRemovePlayer"
+            @click="removePlayer"
+          />
         </div>
         <div class="row">
           <div class="col-sm-6 mb-2 mb-sm-0">
@@ -38,14 +35,11 @@
                 class="form-control"
                 disabled
               >
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                title="Clear selected color"
-                @click="clearColor(player)"
-              >
-                &times;
-              </button>
+              <clear-color-button
+                :index="index"
+                :disabled="isLoading"
+                @click="clearColor"
+              />
             </div>
 
             <select
@@ -70,25 +64,30 @@
     </div>
 
     <div class="d-flex justify-content-between">
-      <button
-        type="button"
-        class="btn btn-primary"
-        :disabled="!canAddPlayer"
+      <add-player-button
+        :disabled="isLoading || !canAddPlayer"
         @click="addPlayer"
-      >
-        Add Player
-      </button>
-      <button type="submit" class="btn btn-success">
-        Create Game
-      </button>
+      />
+      <create-game-button :disabled="isLoading" />
     </div>
   </form>
 </template>
 
 <script>
 import storage from '../storage';
+import AddPlayerButton from './new-game/buttons/add-player.vue';
+import ClearColorButton from './new-game/buttons/clear-color.vue';
+import CreateGameButton from './new-game/buttons/create-game.vue';
+import RemovePlayerButton from './new-game/buttons/remove-player.vue';
 
 export default {
+  components: {
+    AddPlayerButton,
+    ClearColorButton,
+    CreateGameButton,
+    RemovePlayerButton,
+  },
+
   props: {
     game: {
       type: Object,
@@ -97,6 +96,8 @@ export default {
   },
 
   data: () => ({
+    isLoading: false,
+
     minPlayers: null,
     maxPlayers: null,
     colors: [],
@@ -125,8 +126,8 @@ export default {
     removePlayer(index) {
       this.players = this.players.filter((_, i) => i !== index);
     },
-    clearColor(player) {
-      // eslint-disable-next-line no-param-reassign
+    clearColor(index) {
+      const player = this.players[index];
       player.colorId = '';
     },
     setColor(player, event) {
