@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mb-0">Games</h1>
+      <h1 class="mb-0">
+        Games
+      </h1>
       <div class="d-flex gap-2">
         <new-game-dropdown />
 
