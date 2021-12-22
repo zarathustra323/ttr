@@ -26,38 +26,13 @@
           </div>
 
           <div class="col-sm-6">
-            <label :for="`player-color-${index}`">Color</label>
-
-            <div v-if="player.colorId" class="input-group">
-              <input
-                :value="game.playerColors.get(player.colorId).name"
-                :id="`player-color-${index}`"
-                class="form-control"
-                disabled
-              >
-              <clear-color-button
-                :index="index"
-                :disabled="isLoading"
-                @click="clearColor"
-              />
-            </div>
-
-            <select
-              v-else
-              :value="player.colorId"
-              :id="`player-color-${index}`"
-              class="form-select"
-              aria-label="Player Color"
-              required
-              @input="setColor(player, $event)"
-            >
-              <option value="">
-                Select...
-              </option>
-              <option v-for="color in availableColors" :key="color.id" :value="color.id">
-                {{ color.name }}
-              </option>
-            </select>
+            <player-color
+              v-model="player.colorId"
+              :index="index"
+              :disabled="isLoading"
+              :all-colors="game.playerColors"
+              :available-colors="availableColors"
+            />
           </div>
         </div>
       </div>
@@ -76,15 +51,15 @@
 <script>
 import storage from '../storage';
 import AddPlayerButton from './new-game/buttons/add-player.vue';
-import ClearColorButton from './new-game/buttons/clear-color.vue';
 import CreateGameButton from './new-game/buttons/create-game.vue';
+import PlayerColor from './new-game/fields/player-color.vue';
 import RemovePlayerButton from './new-game/buttons/remove-player.vue';
 
 export default {
   components: {
     AddPlayerButton,
-    ClearColorButton,
     CreateGameButton,
+    PlayerColor,
     RemovePlayerButton,
   },
 
@@ -125,15 +100,6 @@ export default {
     },
     removePlayer(index) {
       this.players = this.players.filter((_, i) => i !== index);
-    },
-    clearColor(index) {
-      const player = this.players[index];
-      player.colorId = '';
-    },
-    setColor(player, event) {
-      const { value } = event.target;
-      // eslint-disable-next-line no-param-reassign
-      player.colorId = value || '';
     },
     createGame() {
       const now = new Date();
