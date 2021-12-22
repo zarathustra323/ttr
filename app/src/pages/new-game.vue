@@ -15,16 +15,23 @@
   <hr>
 
   <div class="row">
-    <div class="col-md-6">
-      New Game: {{ game.name }}
+    <div class="col-lg-6">
+      <h3>{{ game.name }}</h3>
+
+      <new-game :game="game" />
     </div>
   </div>
 </template>
 
 <script>
 import gameData from '../../data';
+import NewGame from '../components/new-game.vue';
 
 export default {
+  components: {
+    NewGame,
+  },
+
   data: () => ({
     gameData,
   }),
