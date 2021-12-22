@@ -17,13 +17,13 @@
   <div class="row">
     <div class="col-lg-6">
       <h3>{{ game.name }}</h3>
-
-      <new-game :game="game" />
+      <new-game :game="game" @submit="createGame" />
     </div>
   </div>
 </template>
 
 <script>
+import storage from '../storage';
 import gameData from '../../data';
 import NewGame from '../components/new-game.vue';
 
@@ -41,6 +41,21 @@ export default {
       const { gameId } = this.$route.params;
       const game = this.gameData.get(gameId);
       return game;
+    },
+  },
+
+  methods: {
+    createGame({ players }) {
+      const now = new Date();
+      const game = {
+        id: now.valueOf(),
+        gameTypeId: this.game.id,
+        created: now.toISOString(),
+        players,
+      };
+      storage.push('games', game);
+
+      this.$router.push('/');
     },
   },
 };

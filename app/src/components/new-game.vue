@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="createGame">
+  <form @submit.prevent="$emit('submit', { game, players })">
     <div v-for="(player, index) in players" :key="index" class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import storage from '../storage';
 import AddPlayerButton from './new-game/buttons/add-player.vue';
 import CreateGameButton from './new-game/buttons/create-game.vue';
 import PlayerColor from './new-game/fields/player-color.vue';
@@ -54,6 +53,8 @@ import PlayerName from './new-game/fields/player-name.vue';
 import RemovePlayerButton from './new-game/buttons/remove-player.vue';
 
 export default {
+  emits: ['submit'],
+
   components: {
     AddPlayerButton,
     CreateGameButton,
@@ -99,16 +100,6 @@ export default {
     },
     removePlayer(index) {
       this.players = this.players.filter((_, i) => i !== index);
-    },
-    createGame() {
-      const now = new Date();
-      const game = {
-        id: now.valueOf(),
-        gameTypeId: this.game.id,
-        created: now.toISOString(),
-        players: this.players,
-      };
-      storage.push('games', game);
     },
   },
 
