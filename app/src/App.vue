@@ -1,28 +1,22 @@
 <template>
-  <div>
-    <ul>
-      <li>
-        <router-link to="/">
-          Home
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/another-page">
-          Another Page
-        </router-link>
-      </li>
-    </ul>
+  <primary-nav />
+  <div class="container py-3">
     <router-view />
   </div>
 </template>
 
+<script>
+import PrimaryNav from './components/primary-nav.vue';
+
+export default {
+  components: { PrimaryNav },
+};
+</script>
+
 <style>
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
