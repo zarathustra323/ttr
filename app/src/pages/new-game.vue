@@ -16,8 +16,8 @@
 
   <div class="row">
     <div class="col-lg-6">
-      <h3>{{ game.name }}</h3>
-      <new-game :game="game" @submit="createGame" />
+      <h3>{{ gameData.name }}</h3>
+      <new-game :game-data="gameData" @submit="createGame" />
     </div>
   </div>
 </template>
@@ -26,34 +26,29 @@
 import storage from '../storage';
 import gameData from '../../data';
 import NewGame from '../components/new-game.vue';
+import Game from '../game';
 
 export default {
   components: {
     NewGame,
   },
 
-  data: () => ({
-    gameData,
-  }),
-
   computed: {
-    game() {
+    gameData() {
       const { typeId } = this.$route.params;
-      const game = this.gameData.get(typeId);
-      return game;
+      const data = gameData.get(typeId);
+      return data;
     },
   },
 
   methods: {
     createGame({ players }) {
-      const now = new Date();
-      const game = {
-        id: now.valueOf(),
-        gameTypeId: this.game.id,
-        created: now.toISOString(),
-        players,
-      };
-      storage.push('games', game);
+      const game = new Game({ typeId: this.gameData.id });
+      players.forEach((player) => {
+        game.addPlayer({ name: player.name, colorId: player.colorId });
+      });
+      storage.set(`game-${game.id}`, game.serialize());
+      storage.push('gameIds', game.id);
 
       this.$router.push('/');
     },

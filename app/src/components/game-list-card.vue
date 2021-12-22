@@ -6,9 +6,9 @@
       </h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-for="player in players" :key="player.colorId" class="list-group-item">
+      <li v-for="[, player] in players" :key="player.color.id" class="list-group-item">
         {{ player.name }}
-        [<span :style="`color: var(--bs-${player.colorId})`">{{ player.colorId }}</span>]
+        [<span :style="`color: var(--bs-${player.color.id})`">{{ player.color.id }}</span>]
       </li>
     </ul>
     <div class="card-body d-flex flex-column justify-content-end">
@@ -43,13 +43,13 @@ export default {
 
   computed: {
     gameTypeId() {
-      return this.game.gameTypeId;
+      return this.game.typeId;
     },
     players() {
       return this.game.players;
     },
     timestamp() {
-      return this.game.id;
+      return this.game.created;
     },
     createdDate() {
       const date = new Date(this.timestamp);

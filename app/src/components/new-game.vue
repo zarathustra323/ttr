@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('submit', { game, players })">
+  <form @submit.prevent="$emit('submit', { gameData, players })">
     <div v-for="(player, index) in players" :key="index" class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
@@ -27,7 +27,7 @@
               v-model="player.colorId"
               :index="index"
               :disabled="isLoading"
-              :all-colors="game.playerColors"
+              :all-colors="gameData.playerColors"
               :available-colors="availableColors"
             />
           </div>
@@ -64,7 +64,7 @@ export default {
   },
 
   props: {
-    game: {
+    gameData: {
       type: Object,
       required: true,
     },
@@ -81,10 +81,10 @@ export default {
   }),
 
   created() {
-    this.minPlayers = this.game.minPlayers;
-    this.maxPlayers = this.game.maxPlayers;
+    this.minPlayers = this.gameData.minPlayers;
+    this.maxPlayers = this.gameData.maxPlayers;
 
-    this.game.playerColors.forEach((color) => this.colors.push({
+    this.gameData.playerColors.forEach((color) => this.colors.push({
       id: color.id,
       name: color.name,
     }));

@@ -44,8 +44,9 @@ export default {
     games: [],
   }),
 
-  mounted() {
-    this.games = storage.getAsArray('games');
+  created() {
+    const gameIds = storage.getAsArray('gameIds');
+    this.games = gameIds.map((id) => storage.get(`game-${id}`));
   },
 
   methods: {
