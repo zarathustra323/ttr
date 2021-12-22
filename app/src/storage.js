@@ -19,9 +19,12 @@ const push = (key, value) => {
   }
 };
 
+const clear = () => localStorage.clear();
+
 export default {
   get,
   set,
   has,
   push,
+  clear,
 };
