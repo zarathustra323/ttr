@@ -15,14 +15,11 @@
         </div>
         <div class="row">
           <div class="col-sm-6 mb-2 mb-sm-0">
-            <label :for="`player-name-${index}`">Name</label>
-            <input
+            <player-name
               v-model="player.name"
-              :id="`player-name-${index}`"
-              type="text"
-              class="form-control"
-              required
-            >
+              :index="index"
+              :disabled="isLoading"
+            />
           </div>
 
           <div class="col-sm-6">
@@ -53,6 +50,7 @@ import storage from '../storage';
 import AddPlayerButton from './new-game/buttons/add-player.vue';
 import CreateGameButton from './new-game/buttons/create-game.vue';
 import PlayerColor from './new-game/fields/player-color.vue';
+import PlayerName from './new-game/fields/player-name.vue';
 import RemovePlayerButton from './new-game/buttons/remove-player.vue';
 
 export default {
@@ -60,6 +58,7 @@ export default {
     AddPlayerButton,
     CreateGameButton,
     PlayerColor,
+    PlayerName,
     RemovePlayerButton,
   },
 
