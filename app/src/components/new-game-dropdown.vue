@@ -7,7 +7,12 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      New Game
+      <span class="d-none d-md-inline">
+        New Game
+      </span>
+      <span class="d-md-none">
+        New
+      </span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="new-game-dropdown">
       <li v-for="[gameId, game] in gameData" :key="gameId">

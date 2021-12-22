@@ -1,17 +1,23 @@
 <template>
   <div>
-    <h1>Games</h1>
-    <hr>
-
-    <div class="d-flex justify-content-end">
-      <div class="d-flex">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="mb-0">Games</h1>
+      <div class="d-flex gap-2">
         <new-game-dropdown />
 
-        <button type="button" class="btn btn-danger ms-2" @click="clearData">
-          Clear All Data
-        </button>
+        <div>
+          <button type="button" class="btn btn-danger" @click="clearData">
+            <span class="d-none d-md-inline">
+              Clear All Data
+            </span>
+            <span class="d-md-none">
+              Clear
+            </span>
+          </button>
+        </div>
       </div>
     </div>
+    <hr>
   </div>
 </template>
 
