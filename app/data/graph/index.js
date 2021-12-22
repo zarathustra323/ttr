@@ -7,9 +7,9 @@ export default class Graph {
     this.edges = new Map();
   }
 
-  addNode({ id, data } = {}) {
+  addNode({ id, name, data } = {}) {
     if (!this.hasNode({ id })) {
-      const node = new Node({ id, data });
+      const node = new Node({ id, name, data });
       this.nodes.set(node.getId(), node);
     }
     return this;
@@ -73,5 +73,19 @@ export default class Graph {
 
   getEdge({ fromNodeId, toNodeId, edgeId } = {}) {
     return this.edges.get(Edge.createId({ fromNodeId, toNodeId, edgeId }));
+  }
+
+  serialize() {
+    return {
+      nodes: [...this.nodes].map(([id, node]) => [id, node.serialize()]),
+      edges: [...this.edges].map(([id, edge]) => [id, edge.serialize()]),
+    };
+  }
+
+  static deserialize(o) {
+    const instance = new Graph();
+    instance.nodes = new Map(o.nodes);
+    instance.edges = new Map(o.edges);
+    return instance;
   }
 }

@@ -1,8 +1,9 @@
 import createId from '../utils/create-id';
 
 export default class Node {
-  constructor({ id, data } = {}) {
+  constructor({ id, name, data } = {}) {
     this.id = Node.createId(id);
+    this.name = name;
     this.setData(data);
     this.edges = new Set();
     this.neighbors = new Map();
@@ -26,6 +27,23 @@ export default class Node {
 
   appendData(data) {
     this.data = { ...this.data, ...data };
+  }
+
+  serialize() {
+    return {
+      id: this.id,
+      name: this.name,
+      data: this.data,
+      edges: [...this.edges],
+      neighbors: [...this.neighbors].map(([id, set]) => [id, [...set]]),
+    };
+  }
+
+  static deserialize(o) {
+    const instance = new Node({ id: o.id, name: o.name, data: o.data });
+    instance.edges = new Set(o.edges);
+    instance.neighbors = new Map(o.neighbors);
+    return instance;
   }
 
   static createId(value) {
