@@ -2,11 +2,11 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './app.vue';
 
-import IndexPage from './pages/index-page.vue';
+import GameList from './pages/game-list.vue';
 import NewGame from './pages/new-game.vue';
 
 const routes = [
-  { path: '/', component: IndexPage },
+  { path: '/', component: GameList },
   { path: '/new-game/:gameId', component: NewGame },
 ];
 
