@@ -1,17 +1,8 @@
 <template>
-  <primary-nav />
   <div class="container py-3">
     <router-view />
   </div>
 </template>
-
-<script>
-import PrimaryNav from './components/primary-nav.vue';
-
-export default {
-  components: { PrimaryNav },
-};
-</script>
 
 <style>
 body {

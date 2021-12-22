@@ -1,13 +1,20 @@
 <template>
   <div>
-    <h1>Home Page!</h1>
+    <h1>Games</h1>
+    <hr>
+
+    <div class="d-flex justify-content-end">
+      <new-game-dropdown />
+    </div>
   </div>
 </template>
 
 <script>
+import NewGameDropdown from '../components/new-game-dropdown.vue';
+
 export default {
-  mounted() {
-    console.log('home page mounted!');
+  components: {
+    NewGameDropdown,
   },
 };
 </script>

@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from './app.vue';
 
 import IndexPage from './pages/index-page.vue';
-import AnotherPage from './pages/another-page.vue';
+import NewGame from './pages/new-game.vue';
 
 const routes = [
   { path: '/', component: IndexPage },
-  { path: '/another-page', component: AnotherPage },
+  { path: '/new-game/:gameId', component: NewGame },
 ];
 
 const router = createRouter({
