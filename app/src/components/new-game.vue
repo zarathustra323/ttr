@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="createGame">
     <div v-for="(player, index) in players" :key="index" class="card mb-3">
       <div class="card-body">
         <div class="row">
@@ -83,6 +83,8 @@
 </template>
 
 <script>
+import storage from '../storage';
+
 export default {
   props: {
     game: {
@@ -128,6 +130,15 @@ export default {
       const { value } = event.target;
       // eslint-disable-next-line no-param-reassign
       player.colorId = value || '';
+    },
+    createGame() {
+      const now = new Date();
+      const game = {
+        id: now.valueOf(),
+        created: now.toISOString(),
+        players: this.players,
+      };
+      storage.push('games', game);
     },
   },
 
