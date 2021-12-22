@@ -13,9 +13,9 @@
     </ul>
     <div class="card-body d-flex flex-column justify-content-end">
       <div class="d-flex justify-content-between">
-        <button class="btn btn-sm btn-primary">
+        <router-link class="btn btn-sm btn-primary" role="button" :to="`/game/${game.id}`">
           Manage
-        </button>
+        </router-link>
       </div>
     </div>
     <div class="card-footer">

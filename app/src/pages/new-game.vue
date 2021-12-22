@@ -38,8 +38,8 @@ export default {
 
   computed: {
     game() {
-      const { gameId } = this.$route.params;
-      const game = this.gameData.get(gameId);
+      const { typeId } = this.$route.params;
+      const game = this.gameData.get(typeId);
       return game;
     },
   },
