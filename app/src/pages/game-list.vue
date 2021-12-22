@@ -53,6 +53,7 @@ export default {
       // eslint-disable-next-line no-alert
       if (window.confirm('Are you sure you want to clear ALL game data?')) {
         storage.clear();
+        this.$router.go(0);
       }
     },
   },
