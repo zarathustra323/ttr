@@ -17,7 +17,8 @@
     "lint": "eslint --ext .js --ext .vue --max-warnings 0 ./"
   },
   "dependencies": {
-    "vue": "^3.2.26"
+    "vue": "^3.2.26",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",

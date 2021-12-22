@@ -1,15 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <hello-world msg="Hello Vue 3 + Vite" />
+  <div>
+    <ul>
+      <li>
+        <router-link to="/">
+          Home
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/another-page">
+          Another Page
+        </router-link>
+      </li>
+    </ul>
+    <router-view />
+  </div>
 </template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue';
-
-export default {
-  components: { HelloWorld },
-};
-</script>
 
 <style>
 #app {
