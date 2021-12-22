@@ -139,6 +139,7 @@ export default {
       const now = new Date();
       const game = {
         id: now.valueOf(),
+        gameTypeId: this.game.id,
         created: now.toISOString(),
         players: this.players,
       };
