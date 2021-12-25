@@ -32,15 +32,13 @@
     </div>
     <div v-if="step === 2">
       <div class="d-flex flex-wrap gap-3">
-        <button
-          v-for="(destination, index) in destinations"
-          :key="index"
-          type="button"
-          class="btn btn-outline-secondary"
+        <destination-button
+          v-for="destination in destinations"
+          :key="destination.edge.id"
+          :node="destination.node"
+          :edge="destination.edge"
           @click="$emit('select', destination)"
-        >
-          {{ destination.node.name }} ({{ destination.edge.data.color }})
-        </button>
+        />
       </div>
     </div>
   </div>
@@ -52,8 +50,15 @@
 </template>
 
 <script>
+import DestinationButton from './destination-button.vue';
+
 export default {
   emits: ['select', 'cancel'],
+
+  components: {
+    DestinationButton,
+  },
+
   props: {
     nodes: {
       type: Map,
