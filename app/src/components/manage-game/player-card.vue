@@ -28,6 +28,7 @@
             <th>Color</th>
             <th>Length</th>
             <th>Points</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +38,11 @@
             <td>{{ route.color }}</td>
             <td>{{ route.length }}</td>
             <td>{{ route.points }}</td>
+            <td>
+              <a href="#" @click.prevent="$emit('remove-edge', { player, edge: route.edge })">
+                Remove
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -49,7 +55,7 @@ import ClaimRoute from './claim-route.vue';
 import PlayerNav from './player-nav.vue';
 
 export default {
-  emits: ['claim-edge'],
+  emits: ['claim-edge', 'remove-edge'],
 
   components: {
     ClaimRoute,
@@ -76,6 +82,7 @@ export default {
 
   computed: {
     edges() {
+      console.log(this.player);
       return this.player.graph.edges;
     },
     routes() {
@@ -87,6 +94,7 @@ export default {
 
         routes.push({
           id: edge.id,
+          edge,
           from: fromNode,
           to: toNode,
           color,

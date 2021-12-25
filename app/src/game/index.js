@@ -59,6 +59,17 @@ export default class Game {
     ]);
     player.claimEdge({ nodeMap, edge });
     edge.appendData({ claimedBy: player });
+    return this;
+  }
+
+  removeRoute({
+    edge,
+    playerColorId,
+  } = {}) {
+    this.validateHasPlayer({ colorId: playerColorId });
+    const player = this.players.get(playerColorId);
+    player.removeEdge({ edge });
+    return this;
   }
 
   addPlayer({ name, colorId } = {}) {

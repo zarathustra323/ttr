@@ -24,6 +24,17 @@ export default class Graph {
     return this.nodes.get(Node.createId(id));
   }
 
+  removeNode({ id } = {}) {
+    const node = this.getNode({ id });
+    if (!node) return this;
+    node.edges.forEach((edgeId) => {
+      const edge = this.getEdgeById({ id: edgeId });
+      if (edge) this.removeEdge({ edge });
+    });
+    this.nodes.delete(node.getId());
+    return this;
+  }
+
   getNeighborsFor({ id } = {}) {
     const node = this.getNode({ id });
     if (!node) return undefined;
@@ -65,6 +76,16 @@ export default class Graph {
       fromNode.addEdge(edge);
       toNode.addEdge(edge);
     }
+    return this;
+  }
+
+  removeEdge({ edge } = {}) {
+    const fromNode = this.getNode({ id: edge.fromId });
+    const toNode = this.getNode({ id: edge.toId });
+    this.edges.delete(edge.getId());
+    fromNode.removeEdge(edge);
+    toNode.removeEdge(edge);
+    return this;
   }
 
   hasEdge({ fromNodeId, toNodeId, edgeId } = {}) {
@@ -72,7 +93,11 @@ export default class Graph {
   }
 
   getEdge({ fromNodeId, toNodeId, edgeId } = {}) {
-    return this.edges.get(Edge.createId({ fromNodeId, toNodeId, edgeId }));
+    return this.getEdgeById({ id: Edge.createId({ fromNodeId, toNodeId, edgeId }) });
+  }
+
+  getEdgeById({ id } = {}) {
+    return this.edges.get(id);
   }
 
   serialize() {

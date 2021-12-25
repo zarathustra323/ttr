@@ -6,7 +6,7 @@ export default class GamePlayer {
     this.color = color;
     this.graph = new Graph();
 
-    this.score = 0;
+    this.score = { pieces: 0, tickets: 0 };
     this.piecesUsed = 0;
   }
 
@@ -21,8 +21,23 @@ export default class GamePlayer {
       data: { ...edge.data },
     });
 
-    this.score += edge.data.points;
+    this.score.pieces += edge.data.points;
     this.piecesUsed += edge.data.length;
+
+    return this;
+  }
+
+  removeEdge({ edge } = {}) {
+    this.graph.removeEdge({ edge });
+    this.score.pieces -= edge.data.points;
+    this.piecesUsed -= edge.data.length;
+
+    this.graph.nodes.forEach((node) => {
+      if (!node.neighbors.size) {
+        // remove empty nodes from player graph
+        this.graph.removeNode({ id: node.id });
+      }
+    });
 
     return this;
   }

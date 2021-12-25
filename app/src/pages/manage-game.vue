@@ -25,6 +25,7 @@
           :all-nodes="game.graph.nodes"
           :all-edges="game.graph.edges"
           @claim-edge="claimRoute"
+          @remove-edge="removeRoute"
         />
       </div>
     </div>
@@ -74,6 +75,14 @@ export default {
         fromId: edge.fromId,
         toId: edge.toId,
         colorId: edge.data.color,
+        playerColorId: player.color.id,
+      });
+      this.save();
+    },
+
+    removeRoute({ player, edge }) {
+      this.game.removeRoute({
+        edge,
         playerColorId: player.color.id,
       });
       this.save();

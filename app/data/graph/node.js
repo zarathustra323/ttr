@@ -15,6 +15,19 @@ export default class Node {
     const { neighbors } = this;
     if (!neighbors.has(destinationNodeId)) neighbors.set(destinationNodeId, new Set());
     neighbors.get(destinationNodeId).add(edge.getId());
+    return this;
+  }
+
+  removeEdge(edge) {
+    this.edges.delete(edge.getId());
+    const destinationNodeId = edge.fromId === this.id ? edge.toId : edge.fromId;
+    const { neighbors } = this;
+    if (neighbors.has(destinationNodeId)) {
+      const destinationEdgeIds = neighbors.get(destinationNodeId);
+      destinationEdgeIds.delete(edge.getId());
+      if (!destinationEdgeIds.size) neighbors.delete(destinationNodeId);
+    }
+    return this;
   }
 
   getId() {
