@@ -84,8 +84,14 @@ export default class Graph {
 
   static deserialize(o) {
     const instance = new Graph();
-    instance.nodes = new Map(o.nodes);
-    instance.edges = new Map(o.edges);
+    instance.nodes = new Map();
+    o.nodes.forEach(([id, data]) => {
+      instance.nodes.set(id, Node.deserialize(data));
+    });
+    instance.edges = new Map();
+    o.edges.forEach(([id, data]) => {
+      instance.edges.set(id, Edge.deserialize(data));
+    });
     return instance;
   }
 }

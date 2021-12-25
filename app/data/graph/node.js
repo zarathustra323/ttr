@@ -42,7 +42,10 @@ export default class Node {
   static deserialize(o) {
     const instance = new Node({ id: o.id, name: o.name, data: o.data });
     instance.edges = new Set(o.edges);
-    instance.neighbors = new Map(o.neighbors);
+    instance.neighbors = new Map();
+    o.neighbors.forEach(([id, edgeIds]) => {
+      instance.neighbors.set(id, new Set(edgeIds));
+    });
     return instance;
   }
 

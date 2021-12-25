@@ -42,5 +42,6 @@ export default class GamePlayer {
     instance.graph = Graph.deserialize(o.graph);
     instance.score = o.score;
     instance.piecesUsed = o.piecesUsed;
+    return instance;
   }
 }

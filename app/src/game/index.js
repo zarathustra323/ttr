@@ -68,7 +68,10 @@ export default class Game {
     instance.id = o.id;
     instance.created = o.created;
     instance.graph = Graph.deserialize(o.graph);
-    instance.players = new Map(o.players);
+    instance.players = new Map();
+    o.players.forEach(([id, data]) => {
+      instance.players.set(id, GamePlayer.deserialize(data));
+    });
     return instance;
   }
 }
