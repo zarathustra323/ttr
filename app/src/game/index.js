@@ -69,6 +69,7 @@ export default class Game {
     this.validateHasPlayer({ colorId: playerColorId });
     const player = this.players.get(playerColorId);
     player.removeEdge({ edge });
+    this.graph.getEdgeById({ id: edge.getId() }).appendData({ claimedBy: null });
     return this;
   }
 
