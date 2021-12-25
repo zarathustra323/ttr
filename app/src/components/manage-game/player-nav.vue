@@ -4,7 +4,7 @@
       <a
         :class="`nav-link ${activeKey === item.key ? 'active' : ''}`"
         :href="`#${item.key}`"
-        @click.prevent="setActiveItem(item.key)"
+        @click.prevent="$emit('click', item.key)"
       >
         {{ item.label }}
       </a>
@@ -15,19 +15,17 @@
 <script>
 export default {
   emits: ['click'],
+  props: {
+    activeKey: {
+      type: String,
+      default: 'info',
+    },
+  },
   data: () => ({
     items: [
       { key: 'info', label: 'Info' },
       { key: 'claim-route', label: 'Claim Route' },
     ],
-    activeKey: 'info',
   }),
-
-  methods: {
-    setActiveItem(key) {
-      this.activeKey = key;
-      this.$emit('click', key);
-    },
-  },
 };
 </script>

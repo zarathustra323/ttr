@@ -7,9 +7,15 @@
       </h5>
     </div>
     <div class="card-header">
-      <player-nav @click="activeTab = $event" />
+      <player-nav :active-key="activeTabKey" @click="activeTabKey = $event" />
     </div>
-    <claim-route v-if="activeTab === 'claim-route'" class="card-body" />
+    <claim-route
+      v-if="activeTabKey === 'claim-route'"
+      :nodes="allNodes"
+      :edges="allEdges"
+      @select="claimRoute"
+      @cancel="activeTabKey = 'info'"
+    />
     <div v-else class="card-body">
       Info
     </div>
@@ -30,10 +36,24 @@ export default {
       type: Object,
       required: true,
     },
+    allEdges: {
+      type: Map,
+      required: true,
+    },
+    allNodes: {
+      type: Map,
+      required: true,
+    },
   },
 
   data: () => ({
-    activeTab: 'info',
+    activeTabKey: 'info',
   }),
+
+  methods: {
+    claimRoute({ edge }) {
+      console.log(edge);
+    },
+  },
 };
 </script>

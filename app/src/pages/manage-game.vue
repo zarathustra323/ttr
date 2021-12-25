@@ -18,7 +18,13 @@
     <div class="col-lg-6">
       <h4>Players</h4>
       <div class="d-grid gap-3">
-        <player-card v-for="[colorId, player] in game.players" :key="colorId" :player="player" />
+        <player-card
+          v-for="[colorId, player] in game.players"
+          :key="colorId"
+          :player="player"
+          :all-nodes="game.graph.nodes"
+          :all-edges="game.graph.edges"
+        />
       </div>
     </div>
   </div>
