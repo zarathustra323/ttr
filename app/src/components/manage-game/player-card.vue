@@ -17,6 +17,20 @@
       @cancel="activeTabKey = 'info'"
     />
     <div v-else class="card-body">
+      <h5 class="card-title">
+        <span class="text-muted">
+          Total Score
+        </span>
+        {{ totalScore }}
+      </h5>
+      <div class="mb-3">
+        <small class="d-block">
+          Pieces: {{ player.score.pieces }}
+        </small>
+        <small class="d-block">
+          Tickets: {{ player.score.tickets }}
+        </small>
+      </div>
       <h5 class="card-title text-muted">
         Routes
       </h5>
@@ -84,6 +98,10 @@ export default {
     edges() {
       console.log(this.player);
       return this.player.graph.edges;
+    },
+    totalScore() {
+      const { score } = this.player;
+      return score.pieces + score.tickets;
     },
     routes() {
       const routes = [];
