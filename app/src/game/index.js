@@ -27,6 +27,40 @@ export default class Game {
     this.players = new Map();
   }
 
+  getLocation({ id }) {
+    const node = this.graph.getNode({ id });
+    if (!node) throw new Error(`No location was found for ${id}`);
+    return node;
+  }
+
+  claimRoute({
+    fromId,
+    toId,
+    colorId,
+    playerColorId,
+  } = {}) {
+    this.validateHasPlayer({ colorId: playerColorId });
+    const player = this.players.get(playerColorId);
+
+    const nodes = {
+      from: this.getLocation({ id: fromId }),
+      to: this.getLocation({ id: toId }),
+    };
+
+    const edge = this.graph.getEdge({ fromNodeId: fromId, toNodeId: toId, edgeId: colorId });
+    if (!edge) throw new Error(`No ${colorId} color route found between ${nodes.from.data.name} and ${nodes.to.data.name}`);
+    const { claimedBy } = edge.data;
+    if (claimedBy) {
+      throw new Error(`The ${colorId} route between ${fromId} and ${toId} has already been claimed by the ${claimedBy.color.id} player ${claimedBy.name}`);
+    }
+    const nodeMap = new Map([
+      [nodes.from.getId(), nodes.from],
+      [nodes.to.getId(), nodes.to],
+    ]);
+    player.claimEdge({ nodeMap, edge });
+    edge.appendData({ claimedBy: player });
+  }
+
   addPlayer({ name, colorId } = {}) {
     if (!colorId) throw new Error('A player color ID is required');
     if (!name) throw new Error('The player must have a name');

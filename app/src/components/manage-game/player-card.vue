@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-body">
+    <div class="card-header border-0 pt-3">
       <h5 class="card-title mb-0">
         {{ player.name }}
         [<span :style="`color: var(--bs-${player.color.id})`">{{ player.color.name }}</span>]
@@ -17,7 +17,29 @@
       @cancel="activeTabKey = 'info'"
     />
     <div v-else class="card-body">
-      Info
+      <h5 class="card-title text-muted">
+        Routes
+      </h5>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Color</th>
+            <th>Length</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="route in routes" :key="route.id">
+            <td>{{ route.from.name }}</td>
+            <td>{{ route.to.name }}</td>
+            <td>{{ route.color }}</td>
+            <td>{{ route.length }}</td>
+            <td>{{ route.points }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -27,6 +49,8 @@ import ClaimRoute from './claim-route.vue';
 import PlayerNav from './player-nav.vue';
 
 export default {
+  emits: ['claim-edge'],
+
   components: {
     ClaimRoute,
     PlayerNav,
@@ -50,9 +74,38 @@ export default {
     activeTabKey: 'info',
   }),
 
+  computed: {
+    edges() {
+      return this.player.graph.edges;
+    },
+    routes() {
+      const routes = [];
+      this.edges.forEach((edge) => {
+        const { color, points, length } = edge.data;
+        const fromNode = this.allNodes.get(edge.fromId);
+        const toNode = this.allNodes.get(edge.toId);
+
+        routes.push({
+          id: edge.id,
+          from: fromNode,
+          to: toNode,
+          color,
+          points,
+          length,
+        });
+      });
+      return routes.sort((a, b) => {
+        if (a.id > b.id) return 1;
+        if (a.id < b.id) return -1;
+        return 0;
+      });
+    },
+  },
+
   methods: {
     claimRoute({ edge }) {
-      console.log(edge);
+      this.$emit('claim-edge', { player: this.player, edge });
+      this.activeTabKey = 'info';
     },
   },
 };

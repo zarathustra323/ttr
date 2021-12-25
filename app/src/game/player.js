@@ -15,8 +15,8 @@ export default class GamePlayer {
     const to = nodeMap.get(edge.toId);
 
     this.graph.addEdge({
-      from: { id: from.id, data: from.data },
-      to: { id: to.id, data: to.data },
+      from: { id: from.id, name: from.name, data: from.data },
+      to: { id: to.id, name: to.name, data: to.data },
       id: edge.data.color,
       data: { ...edge.data },
     });

@@ -24,6 +24,7 @@
           :player="player"
           :all-nodes="game.graph.nodes"
           :all-edges="game.graph.edges"
+          @claim-edge="claimRoute"
         />
       </div>
     </div>
@@ -46,13 +47,15 @@ export default {
   }),
 
   created() {
-    const serialized = storage.get(`game-${this.$route.params.gameId}`);
+    const serialized = storage.get(this.gameStorageId);
     const game = Game.deserialize(serialized);
-    console.log(game);
     this.game = game;
   },
 
   computed: {
+    gameStorageId() {
+      return `game-${this.$route.params.gameId}`;
+    },
     gameTypeId() {
       return this.game.typeId;
     },
@@ -62,6 +65,22 @@ export default {
     createdDate() {
       const date = new Date(this.game.created);
       return dayjs(date).format('MMM Do, YYYY @ HH:mma');
+    },
+  },
+
+  methods: {
+    claimRoute({ player, edge }) {
+      this.game.claimRoute({
+        fromId: edge.fromId,
+        toId: edge.toId,
+        colorId: edge.data.color,
+        playerColorId: player.color.id,
+      });
+      this.save();
+    },
+
+    save() {
+      storage.set(this.gameStorageId, this.game.serialize());
     },
   },
 };
