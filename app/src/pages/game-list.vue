@@ -24,7 +24,7 @@
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     <div v-for="game in games" :key="game.id" class="col">
-      <game-list-card :game="game" />
+      <game-list-card :game="game" @delete-game="deleteGame" />
     </div>
   </div>
 </template>
@@ -45,17 +45,26 @@ export default {
   }),
 
   created() {
-    const gameIds = storage.getAsArray('gameIds');
-    this.games = gameIds.map((id) => storage.get(`game-${id}`));
+    this.loadGames();
   },
 
   methods: {
+    loadGames() {
+      const gameIds = storage.getAsArray('gameIds');
+      this.games = gameIds.map((id) => storage.get(`game-${id}`)).filter((v) => v);
+    },
     clearData() {
       // eslint-disable-next-line no-alert
       if (window.confirm('Are you sure you want to clear ALL game data?')) {
         storage.clear();
-        this.$router.go(0);
+        this.loadGames();
       }
+    },
+
+    deleteGame(id) {
+      storage.remove(`game-${id}`);
+      storage.pop('gameIds', id);
+      this.loadGames();
     },
   },
 };

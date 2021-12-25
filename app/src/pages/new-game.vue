@@ -50,7 +50,7 @@ export default {
       storage.set(`game-${game.id}`, game.serialize());
       storage.push('gameIds', game.id);
 
-      this.$router.push('/');
+      this.$router.push(`/game/${game.id}`);
     },
   },
 };
