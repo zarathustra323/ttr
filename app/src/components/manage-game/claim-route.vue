@@ -74,7 +74,7 @@ export default {
       const { step } = this;
       if (step === 1) return [{ name: 'From', active: true }];
       return [
-        { name: `From: ${this.fromNode.name}`, active: false, method: this.goToStep1 },
+        { name: `From ${this.fromNode.name}`, active: false, method: this.goToStep1 },
         { name: 'To', active: true },
       ];
     },
