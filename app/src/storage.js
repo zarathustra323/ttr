@@ -20,6 +20,12 @@ const push = (key, value) => {
   set(key, v);
 };
 
+const pop = (key, value) => {
+  const v = new Set(getAsArray(key));
+  v.delete(value);
+  set(key, [...v]);
+};
+
 const clear = () => localStorage.clear();
 
 export default {
@@ -28,5 +34,7 @@ export default {
   set,
   has,
   push,
+  pop,
   clear,
+  remove: (key) => localStorage.removeItem(key),
 };
