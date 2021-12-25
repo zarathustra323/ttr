@@ -16,28 +16,9 @@
 
   <div class="row">
     <div class="col-lg-6">
-      <h4>Actions</h4>
-      <div class="d-inline-flex flex-column gap-2">
-        <button type="button" class="btn btn-primary">
-          Claim Route
-        </button>
-        <button type="button" class="btn btn-primary">
-          Verify Ticket
-        </button>
-      </div>
-    </div>
-    <div class="col-lg-6">
       <h4>Players</h4>
       <div class="d-grid gap-3">
-        <div v-for="[colorId, player] in game.players" class="card" :key="colorId">
-          <div class="card-header d-flex justify-content-between">
-            {{ player.name }}
-            <span>
-              [<span :style="`color: var(--bs-${colorId})`">{{ colorId }}</span>]
-            </span>
-          </div>
-          <div class="card-body" />
-        </div>
+        <player-card v-for="[colorId, player] in game.players" :key="colorId" :player="player" />
       </div>
     </div>
   </div>
@@ -45,11 +26,15 @@
 
 <script>
 import Game from '../game';
+import PlayerCard from '../components/manage-game/player-card.vue';
 import storage from '../storage';
 import dayjs from '../dayjs';
 import gameData from '../../data';
 
 export default {
+  components: {
+    PlayerCard,
+  },
   data: () => ({
     game: null,
   }),
@@ -57,6 +42,7 @@ export default {
   created() {
     const serialized = storage.get(`game-${this.$route.params.gameId}`);
     const game = Game.deserialize(serialized);
+    console.log(game);
     this.game = game;
   },
 
