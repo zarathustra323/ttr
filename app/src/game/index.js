@@ -31,7 +31,7 @@ export default class Game {
         from: { id: fromName, name: fromName },
         to: { id: toName, name: toName },
         id: 'any',
-        data: { points: ticket.routes },
+        data: { points: ticket.points },
       });
     });
 
@@ -116,6 +116,7 @@ export default class Game {
       created: this.created.valueOf(),
       typeId: this.typeId,
       graph: this.graph.serialize(),
+      ticketGraph: this.ticketGraph.serialize(),
       players: [...this.players].map(([id, player]) => [id, player.serialize()]),
     };
   }
@@ -125,6 +126,7 @@ export default class Game {
     instance.id = o.id;
     instance.created = o.created;
     instance.graph = Graph.deserialize(o.graph);
+    instance.ticketGraph = Graph.deserialize(o.ticketGraph);
     instance.players = new Map();
     o.players.forEach(([id, data]) => {
       instance.players.set(id, GamePlayer.deserialize(data));

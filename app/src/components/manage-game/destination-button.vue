@@ -23,6 +23,10 @@ export default {
       type: Edge,
       required: true,
     },
+    labelKey: {
+      type: String,
+      default: 'color',
+    },
   },
 
   computed: {
@@ -30,7 +34,8 @@ export default {
       return this.edge.data.claimedBy;
     },
     label() {
-      return `${this.node.name} (${this.edge.data.color})`;
+      const { labelKey } = this;
+      return `${this.node.name} (${this.edge.data[labelKey]})`;
     },
     title() {
       const { claimedBy } = this;

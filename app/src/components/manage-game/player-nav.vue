@@ -25,6 +25,7 @@ export default {
     items: [
       { key: 'info', label: 'Info' },
       { key: 'claim-route', label: 'Claim Route' },
+      { key: 'claim-ticket', label: 'Claim Ticket' },
     ],
   }),
 };

@@ -16,6 +16,13 @@
       @select="claimRoute"
       @cancel="activeTabKey = 'info'"
     />
+    <claim-ticket
+      v-else-if="activeTabKey === 'claim-ticket'"
+      :nodes="ticketGraph.nodes"
+      :edges="ticketGraph.edges"
+      @select="claimTicket"
+      @cancel="activeTabKey = 'info'"
+    />
     <div v-else class="card-body">
       <h5 class="card-title">
         <span class="text-muted">
@@ -65,14 +72,17 @@
 </template>
 
 <script>
+import Graph from '../../../data/graph';
 import ClaimRoute from './claim-route.vue';
+import ClaimTicket from './claim-ticket.vue';
 import PlayerNav from './player-nav.vue';
 
 export default {
-  emits: ['claim-edge', 'remove-edge'],
+  emits: ['claim-edge', 'remove-edge', 'claim-ticket'],
 
   components: {
     ClaimRoute,
+    ClaimTicket,
     PlayerNav,
   },
   props: {
@@ -86,6 +96,10 @@ export default {
     },
     allNodes: {
       type: Map,
+      required: true,
+    },
+    ticketGraph: {
+      type: Graph,
       required: true,
     },
   },
@@ -130,6 +144,10 @@ export default {
   methods: {
     claimRoute({ edge }) {
       this.$emit('claim-edge', { player: this.player, edge });
+      this.activeTabKey = 'info';
+    },
+    claimTicket({ edge }) {
+      this.$emit('claim-ticket', { player: this.player, edge });
       this.activeTabKey = 'info';
     },
   },

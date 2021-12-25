@@ -24,8 +24,10 @@
           :player="player"
           :all-nodes="game.graph.nodes"
           :all-edges="game.graph.edges"
+          :ticket-graph="game.ticketGraph"
           @claim-edge="claimRoute"
           @remove-edge="removeRoute"
+          @claim-ticket="claimTicket"
         />
       </div>
     </div>
@@ -86,6 +88,10 @@ export default {
         playerColorId: player.color.id,
       });
       this.save();
+    },
+
+    claimTicket({ player, edge }) {
+      console.log({ claimTicket: edge });
     },
 
     save() {
