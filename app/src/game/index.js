@@ -24,6 +24,17 @@ export default class Game {
       });
     });
 
+    this.ticketGraph = new Graph();
+    this.data.tickets.forEach((ticket) => {
+      const [fromName, toName] = ticket.cities;
+      this.ticketGraph.addEdge({
+        from: { id: fromName, name: fromName },
+        to: { id: toName, name: toName },
+        id: 'any',
+        data: { points: ticket.routes },
+      });
+    });
+
     this.players = new Map();
   }
 

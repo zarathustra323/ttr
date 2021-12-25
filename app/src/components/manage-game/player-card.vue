@@ -96,7 +96,6 @@ export default {
 
   computed: {
     edges() {
-      console.log(this.player);
       return this.player.graph.edges;
     },
     totalScore() {

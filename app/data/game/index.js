@@ -7,6 +7,7 @@ export default class GameData {
     playerColors = [],
     cities = [],
     routes = [],
+    tickets = [],
     scoring = {},
     piecesPerPlayer = [],
     minPlayers = 2,
@@ -36,6 +37,18 @@ export default class GameData {
       route.colors.forEach((color) => routeColors.add(color));
       return { ...route, points };
     });
+
+    this.tickets = tickets.reduce((map, ticket) => {
+      const [from, to] = ticket.cities;
+      if (!this.cities.has(from)) throw new Error(`No destination found for ${from}`);
+      if (!this.cities.has(to)) throw new Error(`No destination found for ${to}`);
+      const { points } = ticket;
+      if (!points) throw new Error(`Unable to get points for ticket ${from} - ${to}`);
+
+      const id = `${createId(from)}.${createId(to)}`;
+      map.set(id, { cities: ticket.cities, points });
+      return map;
+    }, new Map());
 
     this.routeColors = new Elements({ gameId: this.id, names: [...routeColors] });
   }
