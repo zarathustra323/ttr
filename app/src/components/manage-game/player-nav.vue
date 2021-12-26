@@ -1,12 +1,18 @@
 <template>
   <ul class="nav nav-tabs card-header-tabs">
-    <li v-for="item in items" :key="item.key">
+    <li v-for="[colorId, player] in players" :key="colorId">
       <a
-        :class="`nav-link ${activeKey === item.key ? 'active' : ''}`"
-        :href="`#${item.key}`"
-        @click.prevent="$emit('click', item.key)"
+        :class="`pt-3 d-flex nav-link ${activeColorId === colorId ? 'active' : ''}`"
+        :href="`#${colorId}`"
+        @click.prevent="$emit('select-player', colorId)"
       >
-        {{ item.label }}
+        <div class="d-none d-sm-block h5 me-2">{{ player.name }}</div>
+        <div class="d-sm-none">{{ player.name }}</div>
+        <div class="d-none d-sm-block">
+          <span class="badge" :style="`background-color: var(--bs-${player.color.id})`">
+            {{ player.score.pieces + player.score.tickets }}
+          </span>
+        </div>
       </a>
     </li>
   </ul>
@@ -14,19 +20,16 @@
 
 <script>
 export default {
-  emits: ['click'],
+  emits: ['select-player'],
   props: {
-    activeKey: {
+    players: {
+      type: Map,
+      required: true,
+    },
+    activeColorId: {
       type: String,
-      default: 'info',
+      required: true,
     },
   },
-  data: () => ({
-    items: [
-      { key: 'info', label: 'Info' },
-      { key: 'claim-route', label: 'Claim Route' },
-      { key: 'claim-ticket', label: 'Claim Ticket' },
-    ],
-  }),
 };
 </script>

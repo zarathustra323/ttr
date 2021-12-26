@@ -27,23 +27,11 @@
 
   <div class="card">
     <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li v-for="[colorId, player] in game.players" :key="colorId">
-          <a
-            :class="`pt-3 d-flex nav-link ${activeColorId === colorId ? 'active' : ''}`"
-            :href="`#${colorId}`"
-            @click.prevent="activeColorId = colorId"
-          >
-            <div class="d-none d-sm-block h5 me-2">{{ player.name }}</div>
-            <div class="d-sm-none">{{ player.name }}</div>
-            <div class="d-none d-sm-block">
-              <span class="badge" :style="`background-color: var(--bs-${player.color.id})`">
-                {{ player.score.pieces + player.score.tickets }}
-              </span>
-            </div>
-          </a>
-        </li>
-      </ul>
+      <player-nav
+        :players="game.players"
+        :active-color-id="activeColorId"
+        @select-player="activeColorId = $event"
+      />
     </div>
     <player-card
       :player="activePlayer"
@@ -62,6 +50,7 @@
 <script>
 import Game from '../game';
 import PlayerCard from '../components/manage-game/player-card.vue';
+import PlayerNav from '../components/manage-game/player-nav.vue';
 import storage from '../storage';
 import dayjs from '../dayjs';
 import gameData from '../../data';
@@ -69,6 +58,7 @@ import gameData from '../../data';
 export default {
   components: {
     PlayerCard,
+    PlayerNav,
   },
   data: () => ({
     game: null,
