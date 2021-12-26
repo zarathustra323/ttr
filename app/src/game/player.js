@@ -25,6 +25,9 @@ export default class GamePlayer {
     this.score.pieces += edge.data.points;
     this.piecesUsed += edge.data.length;
 
+    // re-check all tickets
+    this.checkAllTickets();
+
     return this;
   }
 
@@ -40,6 +43,25 @@ export default class GamePlayer {
       }
     });
 
+    // re-check all tickets
+    this.checkAllTickets();
+    return this;
+  }
+
+  checkAllTickets() {
+    this.ticketGraph.edges.forEach((ticket) => {
+      const { fromId, toId } = ticket;
+      const didComplete = this.graph.hasPathBetween({ fromId, toId });
+
+      let resolvedPoints = ticket.data.points;
+      if (!didComplete) resolvedPoints *= -1;
+      if (ticket.data.resolvedPoints !== resolvedPoints) {
+        // update total score
+        // needs to double to account for the difference
+        this.score.tickets += resolvedPoints * 2;
+      }
+      ticket.appendData({ resolvedPoints });
+    });
     return this;
   }
 
