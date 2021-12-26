@@ -24,82 +24,15 @@
       @cancel="activeTabKey = 'info'"
     />
     <div v-else class="card-body">
-      <h5 class="card-title">
-        <span class="text-muted">
-          Total Score
-        </span>
-        {{ totalScore }}
-      </h5>
-      <div class="mb-3">
-        <small class="d-block">
-          Pieces: {{ player.score.pieces }}
-        </small>
-        <small class="d-block">
-          Tickets: {{ player.score.tickets }}
-        </small>
-      </div>
-
-      <h5 class="card-title text-muted">
-        Routes
-      </h5>
-      <table v-if="routes.length" class="table table-sm">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Color</th>
-            <th>Length</th>
-            <th>Points</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="route in routes" :key="route.id">
-            <td>{{ route.from.name }}</td>
-            <td>{{ route.to.name }}</td>
-            <td>{{ route.color }}</td>
-            <td>{{ route.length }}</td>
-            <td>{{ route.points }}</td>
-            <td>
-              <a href="#" @click.prevent="$emit('remove-edge', { player, edge: route.edge })">
-                Remove
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <small v-else class="d-block mb-3">
-        No routes claimed
-      </small>
-
-      <h5 class="card-title text-muted">
-        Tickets
-      </h5>
-      <table v-if="tickets.length" class="table table-sm">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Points</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ticket in tickets" :key="ticket.id">
-            <td>{{ ticket.from.name }}</td>
-            <td>{{ ticket.to.name }}</td>
-            <td>{{ ticket.edge.data.resolvedPoints }}</td>
-            <td>
-              <a href="#" @click.prevent="$emit('remove-ticket', { player, edge: ticket.edge })">
-                Remove
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <small v-else class="d-block mb-3">
-        No tickets claimed
-      </small>
+      <total-score :score="player.score" />
+      <routes-table
+        :routes="routes"
+        @remove="$emit('remove-edge', { player, edge: $event })"
+      />
+      <tickets-table
+        :tickets="tickets"
+        @remove="$emit('remove-ticket', { player, edge: $event })"
+      />
     </div>
   </div>
 </template>
@@ -108,6 +41,9 @@
 import ClaimRoute from './claim-route.vue';
 import ClaimTicket from './claim-ticket.vue';
 import PlayerNav from './player-nav.vue';
+import RoutesTable from './routes-table.vue';
+import TicketsTable from './tickets-table.vue';
+import TotalScore from './total-score.vue';
 
 export default {
   emits: ['claim-edge', 'remove-edge', 'claim-ticket', 'remove-ticket'],
@@ -116,6 +52,9 @@ export default {
     ClaimRoute,
     ClaimTicket,
     PlayerNav,
+    RoutesTable,
+    TicketsTable,
+    TotalScore,
   },
   props: {
     player: {
@@ -150,10 +89,6 @@ export default {
     },
     ticketEdges() {
       return this.player.ticketGraph.edges;
-    },
-    totalScore() {
-      const { score } = this.player;
-      return score.pieces + score.tickets;
     },
     routes() {
       const routes = [];
