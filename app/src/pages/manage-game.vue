@@ -1,5 +1,16 @@
 <template>
-  <h1>Manage Game</h1>
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-0">
+      Manage Game
+    </h1>
+    <div class="d-flex gap-2">
+      <div>
+        <button type="button" class="btn btn-danger" @click="deleteGame">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
@@ -14,25 +25,37 @@
   </nav>
   <hr>
 
-  <div class="row">
-    <div class="col-lg-6">
-      <h4>Players</h4>
-      <div class="d-grid gap-3">
-        <player-card
-          v-for="[colorId, player] in game.players"
-          :key="colorId"
-          :player="player"
-          :all-nodes="game.graph.nodes"
-          :all-edges="game.graph.edges"
-          :all-ticket-nodes="game.ticketGraph.nodes"
-          :all-ticket-edges="game.ticketGraph.edges"
-          @claim-edge="claimRoute"
-          @remove-edge="removeRoute"
-          @claim-ticket="claimTicket"
-          @remove-ticket="removeTicket"
-        />
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li v-for="[colorId, player] in game.players" :key="colorId">
+          <a
+            :class="`pt-3 d-flex nav-link ${activeColorId === colorId ? 'active' : ''}`"
+            :href="`#${colorId}`"
+            @click.prevent="activeColorId = colorId"
+          >
+            <div class="d-none d-sm-block h5 me-2">{{ player.name }}</div>
+            <div class="d-sm-none">{{ player.name }}</div>
+            <div class="d-none d-sm-block">
+              <span class="badge" :style="`background-color: var(--bs-${player.color.id})`">
+                {{ player.score.pieces + player.score.tickets }}
+              </span>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
+    <player-card
+      :player="activePlayer"
+      :all-nodes="game.graph.nodes"
+      :all-edges="game.graph.edges"
+      :all-ticket-nodes="game.ticketGraph.nodes"
+      :all-ticket-edges="game.ticketGraph.edges"
+      @claim-edge="claimRoute"
+      @remove-edge="removeRoute"
+      @claim-ticket="claimTicket"
+      @remove-ticket="removeTicket"
+    />
   </div>
 </template>
 
@@ -49,11 +72,14 @@ export default {
   },
   data: () => ({
     game: null,
+    activeColorId: null,
   }),
 
   created() {
     const serialized = storage.get(this.gameStorageId);
     const game = Game.deserialize(serialized);
+    const [firstPlayerColorId] = game.players.keys();
+    this.activeColorId = firstPlayerColorId;
     this.game = game;
   },
 
@@ -70,6 +96,9 @@ export default {
     createdDate() {
       const date = new Date(this.game.created);
       return dayjs(date).format('MMM Do, YYYY @ HH:mma');
+    },
+    activePlayer() {
+      return this.game.players.get(this.activeColorId);
     },
   },
 
@@ -107,6 +136,16 @@ export default {
         playerColorId: player.color.id,
       });
       this.save();
+    },
+
+    deleteGame() {
+      // eslint-disable-next-line no-alert
+      if (window.confirm('Are you sure you want to delete this game?')) {
+        const { id } = this.game;
+        storage.remove(`game-${id}`);
+        storage.pop('gameIds', id);
+        this.$router.push('/');
+      }
     },
 
     save() {

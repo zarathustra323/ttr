@@ -24,7 +24,7 @@
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     <div v-for="game in games" :key="game.id" class="col">
-      <game-list-card :game="game" @delete-game="deleteGame" />
+      <game-list-card :game="game" />
     </div>
   </div>
 </template>
@@ -59,12 +59,6 @@ export default {
         storage.clear();
         this.loadGames();
       }
-    },
-
-    deleteGame(id) {
-      storage.remove(`game-${id}`);
-      storage.pop('gameIds', id);
-      this.loadGames();
     },
   },
 };

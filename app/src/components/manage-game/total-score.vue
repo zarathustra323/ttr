@@ -3,7 +3,7 @@
     <h4 class="card-title text-muted d-flex align-items-center lh-1">
       Total Score
       <div class="ms-2">
-        <span class="badge bg-primary pt-2">
+        <span class="badge pt-2" :style="`background-color: var(--bs-${colorId})`">
           {{ totalScore }}
         </span>
       </div>
@@ -20,6 +20,10 @@
 <script>
 export default {
   props: {
+    colorId: {
+      type: String,
+      required: true,
+    },
     score: {
       type: Object,
       required: true,

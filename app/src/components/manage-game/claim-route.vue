@@ -1,5 +1,5 @@
 <template>
-  <div class="card-body">
+  <div class="py-2">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li
@@ -42,18 +42,13 @@
       </div>
     </div>
   </div>
-  <div class="card-footer justify-content-end d-flex">
-    <button type="button" class="btn btn-outline-danger" @click="$emit('cancel')">
-      Cancel
-    </button>
-  </div>
 </template>
 
 <script>
 import DestinationButton from './destination-button.vue';
 
 export default {
-  emits: ['select', 'cancel'],
+  emits: ['select'],
 
   components: {
     DestinationButton,

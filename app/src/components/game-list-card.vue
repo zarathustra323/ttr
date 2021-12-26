@@ -13,10 +13,11 @@
       >
         <div>
           {{ player.name }}
-          [<span :style="`color: var(--bs-${player.color.id})`">{{ player.color.id }}</span>]
         </div>
         <div>
-          {{ player.score.pieces + player.score.tickets }} points
+          <span class="badge" :style="`background-color: var(--bs-${player.color.id})`">
+            {{ player.score.pieces + player.score.tickets }} points
+          </span>
         </div>
       </li>
     </ul>
@@ -25,9 +26,6 @@
         <router-link class="btn btn-sm btn-primary" role="button" :to="`/game/${game.id}`">
           Manage
         </router-link>
-        <button type="button" class="btn btn-sm btn-danger" @click="deleteGame">
-          Delete
-        </button>
       </div>
     </div>
     <div class="card-footer">
@@ -46,7 +44,6 @@ import dayjs from '../dayjs';
 import gameData from '../../data';
 
 export default {
-  emits: ['delete-game'],
   props: {
     game: {
       type: Object,
@@ -70,15 +67,6 @@ export default {
     },
     gameData() {
       return gameData.get(this.gameTypeId);
-    },
-  },
-
-  methods: {
-    deleteGame() {
-      // eslint-disable-next-line no-alert
-      if (window.confirm('Are you sure you want to delete this game?')) {
-        this.$emit('delete-game', this.game.id);
-      }
     },
   },
 };

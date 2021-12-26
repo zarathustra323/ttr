@@ -16,4 +16,9 @@ body {
 .pt-1-5 {
   padding-top: 0.375rem !important;
 }
+
+:root {
+  --bs-black: #000;
+}
+
 </style>
