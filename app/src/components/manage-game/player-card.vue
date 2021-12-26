@@ -42,7 +42,7 @@
       <h5 class="card-title text-muted">
         Routes
       </h5>
-      <table class="table table-sm">
+      <table v-if="routes.length" class="table table-sm">
         <thead>
           <tr>
             <th>From</th>
@@ -68,11 +68,14 @@
           </tr>
         </tbody>
       </table>
+      <small v-else class="d-block mb-3">
+        No routes claimed
+      </small>
 
       <h5 class="card-title text-muted">
         Tickets
       </h5>
-      <table class="table table-sm">
+      <table v-if="tickets.length" class="table table-sm">
         <thead>
           <tr>
             <th>From</th>
@@ -94,6 +97,9 @@
           </tr>
         </tbody>
       </table>
+      <small v-else class="d-block mb-3">
+        No tickets claimed
+      </small>
     </div>
   </div>
 </template>
