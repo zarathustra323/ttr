@@ -49,6 +49,8 @@ export default class Edge {
   static createId({ fromNodeId, toNodeId, edgeId } = {}) {
     const { createId } = Node;
     const elements = [fromNodeId, toNodeId].sort();
-    return `${elements.map(createId).join('.')}__${createId(edgeId)}`;
+    const nodesId = `${elements.map(createId).join('.')}`;
+    if (!edgeId) return nodesId;
+    return `${nodesId}__${createId(edgeId)}`;
   }
 }
