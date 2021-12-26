@@ -29,7 +29,7 @@
         </tr>
       </tbody>
     </table>
-    <small v-else class="d-block mb-3">
+    <small v-else class="d-block">
       No routes claimed
     </small>
   </div>

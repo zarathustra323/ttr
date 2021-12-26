@@ -23,13 +23,15 @@
       @select="claimTicket"
       @cancel="activeTabKey = 'info'"
     />
-    <div v-else class="card-body">
-      <total-score :score="player.score" />
+    <div v-else class="list-group list-group-flush">
+      <total-score class="list-group-item py-3" :score="player.score" />
       <routes-table
+        class="list-group-item py-3"
         :routes="routes"
         @remove="$emit('remove-edge', { player, edge: $event })"
       />
       <tickets-table
+        class="list-group-item py-3"
         :tickets="tickets"
         @remove="$emit('remove-ticket', { player, edge: $event })"
       />

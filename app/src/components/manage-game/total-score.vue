@@ -6,14 +6,12 @@
       </span>
       {{ totalScore }}
     </h5>
-    <div class="mb-3">
-      <small class="d-block">
-        Pieces: {{ score.pieces }}
-      </small>
-      <small class="d-block">
-        Tickets: {{ score.tickets }}
-      </small>
-    </div>
+    <small class="d-block">
+      Pieces: {{ score.pieces }}
+    </small>
+    <small class="d-block">
+      Tickets: {{ score.tickets }}
+    </small>
   </div>
 </template>
 
