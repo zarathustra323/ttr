@@ -30,7 +30,6 @@ export default class Game {
       this.ticketGraph.addEdge({
         from: { id: fromName, name: fromName },
         to: { id: toName, name: toName },
-        id: 'any',
         data: { points: ticket.points },
       });
     });
@@ -41,6 +40,12 @@ export default class Game {
   getLocation({ id }) {
     const node = this.graph.getNode({ id });
     if (!node) throw new Error(`No location was found for ${id}`);
+    return node;
+  }
+
+  getTicketLocation({ id }) {
+    const node = this.ticketGraph.getNode({ id });
+    if (!node) throw new Error(`No ticket location was found for ${id}`);
     return node;
   }
 
@@ -59,7 +64,7 @@ export default class Game {
     };
 
     const edge = this.graph.getEdge({ fromNodeId: fromId, toNodeId: toId, edgeId: colorId });
-    if (!edge) throw new Error(`No ${colorId} color route found between ${nodes.from.data.name} and ${nodes.to.data.name}`);
+    if (!edge) throw new Error(`No ${colorId} color route found between ${nodes.data.name} and ${nodes.to.name}`);
     const { claimedBy } = edge.data;
     if (claimedBy) {
       throw new Error(`The ${colorId} route between ${fromId} and ${toId} has already been claimed by the ${claimedBy.color.id} player ${claimedBy.name}`);
@@ -81,6 +86,45 @@ export default class Game {
     const player = this.players.get(playerColorId);
     player.removeEdge({ edge });
     this.graph.getEdgeById({ id: edge.getId() }).appendData({ claimedBy: null });
+    return this;
+  }
+
+  claimTicket({
+    fromId,
+    toId,
+    playerColorId,
+  } = {}) {
+    this.validateHasPlayer({ colorId: playerColorId });
+    const player = this.players.get(playerColorId);
+
+    const nodes = {
+      from: this.getTicketLocation({ id: fromId }),
+      to: this.getTicketLocation({ id: toId }),
+    };
+
+    const edge = this.ticketGraph.getEdge({ fromNodeId: fromId, toNodeId: toId });
+    if (!edge) throw new Error(`No ticket route found between ${nodes.from.name} and ${nodes.to.name}`);
+    const { claimedBy } = edge.data;
+    if (claimedBy) {
+      throw new Error(`The ticket route between ${fromId} and ${toId} has already been claimed by the ${claimedBy.color.id} player ${claimedBy.name}`);
+    }
+    const nodeMap = new Map([
+      [nodes.from.getId(), nodes.from],
+      [nodes.to.getId(), nodes.to],
+    ]);
+    player.claimTicket({ nodeMap, edge });
+    edge.appendData({ claimedBy: player });
+    return this;
+  }
+
+  removeTicket({
+    edge,
+    playerColorId,
+  } = {}) {
+    this.validateHasPlayer({ colorId: playerColorId });
+    const player = this.players.get(playerColorId);
+    player.removeTicket({ edge });
+    this.ticketGraph.getEdgeById({ id: edge.getId() }).appendData({ claimedBy: null });
     return this;
   }
 

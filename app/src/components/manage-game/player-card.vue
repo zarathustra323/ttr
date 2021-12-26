@@ -18,8 +18,8 @@
     />
     <claim-ticket
       v-else-if="activeTabKey === 'claim-ticket'"
-      :nodes="ticketGraph.nodes"
-      :edges="ticketGraph.edges"
+      :nodes="allTicketNodes"
+      :edges="allTicketEdges"
       @select="claimTicket"
       @cancel="activeTabKey = 'info'"
     />
@@ -38,6 +38,7 @@
           Tickets: {{ player.score.tickets }}
         </small>
       </div>
+
       <h5 class="card-title text-muted">
         Routes
       </h5>
@@ -67,18 +68,43 @@
           </tr>
         </tbody>
       </table>
+
+      <h5 class="card-title text-muted">
+        Tickets
+      </h5>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Points</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="ticket in tickets" :key="ticket.id">
+            <td>{{ ticket.from.name }}</td>
+            <td>{{ ticket.to.name }}</td>
+            <td>{{ ticket.edge.data.resolvedPoints }}</td>
+            <td>
+              <a href="#" @click.prevent="$emit('remove-ticket', { player, edge: ticket.edge })">
+                Remove
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
-import Graph from '../../../data/graph';
 import ClaimRoute from './claim-route.vue';
 import ClaimTicket from './claim-ticket.vue';
 import PlayerNav from './player-nav.vue';
 
 export default {
-  emits: ['claim-edge', 'remove-edge', 'claim-ticket'],
+  emits: ['claim-edge', 'remove-edge', 'claim-ticket', 'remove-ticket'],
 
   components: {
     ClaimRoute,
@@ -98,8 +124,12 @@ export default {
       type: Map,
       required: true,
     },
-    ticketGraph: {
-      type: Graph,
+    allTicketEdges: {
+      type: Map,
+      required: true,
+    },
+    allTicketNodes: {
+      type: Map,
       required: true,
     },
   },
@@ -111,6 +141,9 @@ export default {
   computed: {
     edges() {
       return this.player.graph.edges;
+    },
+    ticketEdges() {
+      return this.player.ticketGraph.edges;
     },
     totalScore() {
       const { score } = this.player;
@@ -134,6 +167,28 @@ export default {
         });
       });
       return routes.sort((a, b) => {
+        if (a.id > b.id) return 1;
+        if (a.id < b.id) return -1;
+        return 0;
+      });
+    },
+    tickets() {
+      const tickets = [];
+      this.ticketEdges.forEach((edge) => {
+        const { points, resolvedPoints } = edge.data;
+        const fromNode = this.allTicketNodes.get(edge.fromId);
+        const toNode = this.allTicketNodes.get(edge.toId);
+
+        tickets.push({
+          id: edge.id,
+          edge,
+          from: fromNode,
+          to: toNode,
+          points,
+          resolvedPoints,
+        });
+      });
+      return tickets.sort((a, b) => {
         if (a.id > b.id) return 1;
         if (a.id < b.id) return -1;
         return 0;
