@@ -47,13 +47,10 @@ export default class GamePlayer {
     const from = nodeMap.get(edge.fromId);
     const to = nodeMap.get(edge.toId);
 
+    const didComplete = this.graph.hasPathBetween({ fromId: edge.fromId, toId: edge.toId });
+
     let resolvedPoints = edge.data.points;
-    if (!from || !to) {
-      resolvedPoints *= -1;
-    } else {
-      // check for complete route!
-      console.log('check for ticket completion!');
-    }
+    if (!didComplete) resolvedPoints *= -1;
 
     this.ticketGraph.addEdge({
       from: { id: from.id, name: from.name, data: from.data },

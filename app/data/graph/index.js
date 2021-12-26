@@ -100,6 +100,31 @@ export default class Graph {
     return this.edges.get(id);
   }
 
+  hasPathBetween({ fromId, toId } = {}) {
+    const from = this.getNode({ id: fromId });
+    const to = this.getNode({ id: toId });
+    if (!from || !to) return false;
+
+    let found = false;
+    const visitedNodeIds = new Set();
+    const check = (start, destination) => {
+      if (found || start.id === destination.id) return found;
+      start.neighbors.forEach((_, neighborId) => {
+        if (found) return found;
+        if (visitedNodeIds.has(neighborId) || found) return found;
+        visitedNodeIds.add(neighborId);
+        if (destination.id === neighborId) {
+          found = true;
+          return found;
+        }
+        return check(this.getNode({ id: neighborId }), destination);
+      });
+      return found;
+    };
+
+    return check(from, to);
+  }
+
   serialize() {
     return {
       nodes: [...this.nodes].map(([id, node]) => [id, node.serialize()]),
