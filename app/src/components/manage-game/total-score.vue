@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h5 class="card-title">
-      <span class="text-muted">
-        Total Score
-      </span>
-      {{ totalScore }}
-    </h5>
+    <h4 class="card-title text-muted d-flex align-items-center lh-1">
+      Total Score
+      <div class="ms-2">
+        <span class="badge bg-primary pt-2">
+          {{ totalScore }}
+        </span>
+      </div>
+    </h4>
     <small class="d-block">
       Pieces: {{ score.pieces }}
     </small>

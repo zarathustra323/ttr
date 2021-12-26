@@ -10,4 +10,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.lh-0 {
+  line-height: 0 !important;
+}
+.pt-1-5 {
+  padding-top: 0.375rem !important;
+}
 </style>

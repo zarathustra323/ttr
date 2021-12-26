@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h5 class="card-title text-muted">
+    <h5 class="card-title text-muted d-flex align-items-center lh-1">
       Routes
+      <span class="badge bg-secondary ms-2 pt-1-5">
+        {{ routes.length }}
+      </span>
     </h5>
     <table v-if="routes.length" class="table table-sm">
       <thead>
