@@ -6,9 +6,18 @@
       </h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-for="[, player] in players" :key="player.color.id" class="list-group-item">
-        {{ player.name }}
-        [<span :style="`color: var(--bs-${player.color.id})`">{{ player.color.id }}</span>]
+      <li
+        v-for="[, player] in players"
+        :key="player.color.id"
+        class="list-group-item d-flex justify-content-between"
+      >
+        <div>
+          {{ player.name }}
+          [<span :style="`color: var(--bs-${player.color.id})`">{{ player.color.id }}</span>]
+        </div>
+        <div>
+          {{ player.score.pieces + player.score.tickets }} points
+        </div>
       </li>
     </ul>
     <div class="card-body d-flex flex-column justify-content-end">
