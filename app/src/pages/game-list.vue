@@ -7,6 +7,8 @@
       <div class="d-flex gap-2">
         <new-game-dropdown />
 
+        <export-dropdown />
+
         <div>
           <button type="button" class="btn btn-danger" @click="clearData">
             <span class="d-none d-md-inline">
@@ -30,12 +32,14 @@
 </template>
 
 <script>
+import ExportDropdown from '../components/export-dropdown.vue';
 import NewGameDropdown from '../components/new-game-dropdown.vue';
 import GameListCard from '../components/game-list-card.vue';
 import storage from '../storage';
 
 export default {
   components: {
+    ExportDropdown,
     NewGameDropdown,
     GameListCard,
   },
