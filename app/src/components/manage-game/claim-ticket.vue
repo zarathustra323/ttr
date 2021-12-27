@@ -18,7 +18,7 @@
     </nav>
 
     <div v-if="step === 1">
-      <div class="d-flex flex-wrap gap-3">
+      <div class="d-flex flex-wrap">
         <button
           v-for="node in fromNodes"
           :key="node.id"
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div v-if="step === 2">
-      <div class="d-flex flex-wrap gap-3">
+      <div class="d-flex flex-wrap">
         <destination-button
           v-for="destination in destinations"
           class="me-3 mb-3"
