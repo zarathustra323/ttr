@@ -17,6 +17,10 @@ body {
   padding-top: 0.375rem !important;
 }
 
+.mt--2px {
+  margin-top: -2px !important;
+}
+
 :root {
   --bs-black: #000;
 }
