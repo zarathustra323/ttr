@@ -7,18 +7,10 @@
       <div class="d-flex gap-2">
         <new-game-dropdown />
 
-        <export-dropdown />
-
-        <div>
-          <button type="button" class="btn btn-danger" @click="clearData">
-            <span class="d-none d-md-inline">
-              Clear All Data
-            </span>
-            <span class="d-md-none">
-              Clear
-            </span>
-          </button>
-        </div>
+        <export-dropdown
+          @import="loadGames"
+          @clear="loadGames"
+        />
       </div>
     </div>
     <hr>
@@ -56,13 +48,6 @@ export default {
     loadGames() {
       const gameIds = storage.getAsArray('gameIds');
       this.games = gameIds.map((id) => storage.get(`game-${id}`)).filter((v) => v);
-    },
-    clearData() {
-      // eslint-disable-next-line no-alert
-      if (window.confirm('Are you sure you want to clear ALL game data?')) {
-        storage.clear();
-        this.loadGames();
-      }
     },
   },
 };
