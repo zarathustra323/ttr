@@ -59,6 +59,10 @@ export default {
   emits: ['claim', 'remove'],
   components: { ClaimTicket },
   props: {
+    playerColorId: {
+      type: String,
+      required: true,
+    },
     tickets: {
       type: Array,
       required: true,
@@ -76,6 +80,12 @@ export default {
   data: () => ({
     isClaiming: false,
   }),
+
+  watch: {
+    playerColorId() {
+      this.isClaiming = false;
+    },
+  },
 
   methods: {
     claim(...args) {

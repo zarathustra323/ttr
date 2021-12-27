@@ -3,6 +3,7 @@
     <total-score class="list-group-item py-3" :score="player.score" :color-id="player.color.id" />
     <routes-table
       class="list-group-item py-3"
+      :player-color-id="player.color.id"
       :routes="routes"
       :nodes="allNodes"
       :edges="allEdges"
@@ -11,6 +12,7 @@
     />
     <tickets-table
       class="list-group-item py-3"
+      :player-color-id="player.color.id"
       :tickets="tickets"
       :nodes="allTicketNodes"
       :edges="allTicketEdges"
