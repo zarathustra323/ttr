@@ -43,7 +43,12 @@
             <td>{{ route.points }}</td>
             <td>
               <a href="#" @click.prevent="$emit('remove', route.edge)">
-                Remove
+                <span class="d-none d-sm-inline">
+                  Remove
+                </span>
+                <span class="d-sm-none">
+                  &times;
+                </span>
               </a>
             </td>
           </tr>
