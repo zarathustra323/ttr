@@ -18,12 +18,12 @@
     </nav>
 
     <div v-if="step === 1">
-      <div class="d-flex flex-wrap gap-3">
+      <div class="d-flex flex-wrap">
         <button
           v-for="node in fromNodes"
           :key="node.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="me-3 mb-3 btn btn-outline-secondary"
           @click="fromNode = node"
         >
           {{ node.name }}
@@ -31,9 +31,10 @@
       </div>
     </div>
     <div v-if="step === 2">
-      <div class="d-flex flex-wrap gap-3">
+      <div class="d-flex flex-wrap">
         <destination-button
           v-for="destination in destinations"
+          class="me-3 mb-3 btn"
           :key="destination.edge.id"
           :node="destination.node"
           :edge="destination.edge"

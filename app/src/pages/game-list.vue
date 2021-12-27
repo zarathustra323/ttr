@@ -4,10 +4,11 @@
       <h1 class="mb-0">
         Games
       </h1>
-      <div class="d-flex gap-2">
+      <div class="d-flex">
         <new-game-dropdown />
 
         <export-dropdown
+          class="ms-2"
           @import="loadGames"
           @clear="loadGames"
         />
