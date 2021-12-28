@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-end">
+    <div class="d-flex justify-content-between align-items-end mb-3">
       <h5 class="card-title text-muted d-flex align-items-center lh-1">
         Routes
         <span class="badge bg-secondary ms-2 pt-1-5">
@@ -22,7 +22,7 @@
       @select="claim"
     />
 
-    <div v-else>
+    <div class="table-responsive" v-else>
       <table v-if="routes.length" class="table table-sm">
         <thead>
           <tr>
